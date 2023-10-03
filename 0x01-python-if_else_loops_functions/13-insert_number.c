@@ -1,40 +1,47 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include "lists.h"
+#include <stdlib.h>
 
 /**
- * main - check the code for Holberton School students.
- *
- * Return: Always 0.
+ * insert_node - inserts a new node so that linked list remains sorted
+ * @head: pointer to the beginning of linked list
+ * @number: value for n
+ * Return: address of new node or NULL if fails
  */
-int main(void)
+
+listint_t *insert_node(listint_t **head, int number)
 {
-	listint_t *head;
+	listint_t *new, *hold = *head;
+	unsigned int i = 0;
 
-	head = NULL;
-	add_nodeint_end(&head, -27);
-	add_nodeint_end(&head, 1);
-	add_nodeint_end(&head, 2);
-//	add_nodeint_end(&head, 3);
-//	add_nodeint_end(&head, 4);
-//	add_nodeint_end(&head, 98);
-//	add_nodeint_end(&head, 402);
-//	add_nodeint_end(&head, 1024);
-	print_listint(head);
+	if (!(hold) || (*hold).n > number) /* add to beginning of linked list*/
+	{
+		new = malloc(sizeof(listint_t));
+		if (!new)
+			return (NULL);
 
-	printf("-----------------\n");
+		(*new).n = number;
+		(*new).next = *head;
 
-	insert_node(&head, -100);
-	insert_node(&head, -10);
-	insert_node(&head, -11);
-//	insert_node(&head, 9);
-//	insert_node(&head, -27);
-//	insert_node(&head, 0);
+		*head = new;
 
-	print_listint(head);
+		return (*head);
+	}
 
-	free_listint(head);
+	while (hold)
+	{
+		if (!((*hold).next) || (*hold).next->n > number)
+		{
+			new = malloc(sizeof(listint_t));
+			if (!new)
+				return (NULL);
+			(*new).n = number;
+			(*new).next = (*hold).next;
+			(*hold).next = new;
+			return (new);
+		}
+		hold = (*hold).next;
+		i++;
+	}
 
-	return (0);
+	return (NULL);
 }
