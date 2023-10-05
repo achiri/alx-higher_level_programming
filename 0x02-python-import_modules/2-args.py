@@ -1,6 +1,9 @@
 #!/usr/bin/python3
-from sys import argv
 if __name__ == "__main__":
-    argc = len(argv)
-    if argc > 1:
-        count = 0
+    from sys import argv
+    userin = argv[1:]
+    size = len(userin)
+    print("{:d} {:s}{:s}".
+          format(size,
+                 "arguments" if (size) is not 1 else "argument",
+                 "." if (size) is 0 else ":"))
