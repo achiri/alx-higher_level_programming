@@ -1,72 +1,59 @@
 #!/usr/bin/python3
-"""
-Defines a square class.
-"""
+""" class square """
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """
-    Represent a square.
-    """
-
+    """ class for Square that inherits from rectangle """
     def __init__(self, size, x=0, y=0, id=None):
-        """
-        Initialize a new Square.
-        """
+        """ initialize """
         super().__init__(size, size, x, y, id)
 
     @property
     def size(self):
-        """Get/set the size of the Square."""
+        """
+        returns size value
+        """
         return self.width
 
     @size.setter
     def size(self, value):
+        """
+        sets size value
+        """
         self.width = value
         self.height = value
 
     def update(self, *args, **kwargs):
-        """
-        Update the Square.
-        """
-        if args and len(args) != 0:
-            for count, arg in enumerate(args):
-                if count == 0:
-                    self.id = arg
-                elif count == 1:
-                    self.size = arg
-                elif count == 2:
-                    self.x = arg
-                elif count == 3:
-                    self.y = arg
-                else: continue
-
-        elif len(kwargs) > 0:
-            for key, value in kwargs.items():
-                if key == "id":
-                    self.id = value
-                elif key == "size":
-                    self.size = value
-                elif key == "x":
-                    self.x = value
-                elif key == "y":
-                    self.y = value
-                # removed the break statement, incase if the passed args are greater
-                # than 5, and one of the attributes is at the end
-
-    def to_dictionary(self):
-        """Return the dictionary representation of the Square."""
-        square_dict = {
-            "id": self.id,
-            "size": self.width,
-            "x": self.x,
-            "y": self.y
-        }
-
-        return square_dict
+        """ update square """
+        argCount = len(args)
+        if argCount == 0:
+            if "id" in kwargs.keys():
+                self.id = kwargs["id"]
+            if "size" in kwargs.keys():
+                self.size = kwargs["size"]
+            if "x" in kwargs.keys():
+                self.x = kwargs["x"]
+            if "y" in kwargs.keys():
+                self.y = kwargs["y"]
+        if argCount > 0:
+            self.id = args[0]
+        if argCount > 1:
+            self.size = args[1]
+        if argCount > 2:
+            self.x = args[2]
+        if argCount > 3:
+            self.y = args[3]
 
     def __str__(self):
-        """Return the print() and str() representation of a Square."""
-        return "[Square] ({}) {}/{} - {}".format(self.id, self.x, self.y,
-                                                 self.width)
+        """ string representation of class """
+        string = "[{:s}] ({:d})".format(type(self).__name__, self.id)
+        string += " {:d}/{:d} ".format(self.x, self.y)
+        string += "- {:d}".format(self.size)
+        return string
+
+    def to_dictionary(self):
+        """ to dictionary """
+        dict_rec = {"x": self.x, "y": self.y, "id": self.id}
+        dict_rec["size"] = self.size
+        return dict_rec
